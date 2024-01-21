@@ -1,4 +1,9 @@
 
+using MediatR;
+using Sudoku.BL;
+using Sudoku.DataAccess;
+using System.Reflection;
+
 namespace Sudoku.API
 {
     public class Program
@@ -13,6 +18,11 @@ namespace Sudoku.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.SetUpDatabase(builder.Configuration);
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            builder.Services.AddMediatR(typeof(GetSudokuUserRequest).GetTypeInfo().Assembly);
 
             var app = builder.Build();
 

@@ -1,0 +1,40 @@
+version: '3.4'
+
+networks:
+  api-dev:
+    driver: bridge 
+    
+volumes:
+  db_volume:
+
+services:
+  api:
+    image: api:latest
+    depends_on:
+        - db
+    build:
+      context: Sudoku.API
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 5000:8080
+    environment: 
+     - ConnectionString=host=db;port=5432;database=sudokudb;username=sudokuuser;password=sudokuuser
+    networks:
+      - api-dev  
+
+  db:
+    image: postgres:latest
+    ports:
+     - 5432:5432
+    restart: always
+    volumes:
+     - ./pg_init.sh:/docker-entrypoint-initdb.d/db.sh
+     - db_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=sudokuuser
+      - POSTGRES_PASSWORD=sudokuuser
+      - SQL_DATABASE=sudokudb
+    networks:
+      - api-dev
+   
