@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Domain", "Sudoku.Domain\Sudoku.Domain.csproj", "{DC910C9B-4D92-4113-81C6-C1C870E573CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Domain", "Sudoku.Domain\Sudoku.Domain.csproj", "{DC910C9B-4D92-4113-81C6-C1C870E573CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.DataAccess", "Sudoku.DataAccess\Sudoku.DataAccess.csproj", "{B496E1D0-195D-4CA5-8BAE-CD6CF64789D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.DataAccess", "Sudoku.DataAccess\Sudoku.DataAccess.csproj", "{B496E1D0-195D-4CA5-8BAE-CD6CF64789D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.API", "Sudoku.API\Sudoku.API.csproj", "{5F960C48-E8D6-48A0-AB00-ABF52B596CA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.API", "Sudoku.API\Sudoku.API.csproj", "{5F960C48-E8D6-48A0-AB00-ABF52B596CA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.BL", "Sudoku.BL\Sudoku.BL.csproj", "{DD201A71-11EB-4BF6-A531-A2ADAB321DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.BL", "Sudoku.BL\Sudoku.BL.csproj", "{DD201A71-11EB-4BF6-A531-A2ADAB321DAB}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{070EE1D3-5615-45A6-BED6-1A354F4EDBAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DD201A71-11EB-4BF6-A531-A2ADAB321DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD201A71-11EB-4BF6-A531-A2ADAB321DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD201A71-11EB-4BF6-A531-A2ADAB321DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{070EE1D3-5615-45A6-BED6-1A354F4EDBAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070EE1D3-5615-45A6-BED6-1A354F4EDBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070EE1D3-5615-45A6-BED6-1A354F4EDBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070EE1D3-5615-45A6-BED6-1A354F4EDBAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
