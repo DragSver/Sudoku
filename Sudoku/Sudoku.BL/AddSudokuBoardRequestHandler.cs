@@ -7,7 +7,7 @@ namespace Sudoku.BL;
 public class AddSudokuBoardRequest : IRequest<Guid?>
 {
     public string SudokuBoardData { get; set; }
-    public SudokuUser User { get; set; }
+    public Guid UserId { get; set; }
 }
 
 public class AddSudokuBoardRequestHandler : IRequestHandler<AddSudokuBoardRequest, Guid?>
@@ -21,7 +21,7 @@ public class AddSudokuBoardRequestHandler : IRequestHandler<AddSudokuBoardReques
 
     public async Task<Guid?> Handle(AddSudokuBoardRequest request, CancellationToken cancellationToken)
     {
-        var entity = new SudokuBoard { SudokuBoardData = request.SudokuBoardData, User = request.User };
+        var entity = new SudokuBoard { SudokuBoardData = request.SudokuBoardData, UserId = request.UserId };
 
         try
         {
