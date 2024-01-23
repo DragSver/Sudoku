@@ -43,6 +43,13 @@ public class SudokuBoardsController : Controller
 
         return id is not null ? Ok(id) : NotFound();
     }
+
+    [HttpPost("new")]
+    public async Task<ActionResult<byte[,]>> Create()
+    {
+        var newBoard = SudokuBoard.CreateSudokuBoard();
+        return newBoard is not null ? Ok(newBoard) : NotFound();
+    }
 }
 
 public class SudokuBoard
@@ -54,6 +61,11 @@ public class SudokuBoard
         ToBoard(boardData);
     }
 
+    public SudokuBoard(byte[,] board) 
+    {
+        _board = board;
+    }
+
     public string ToJson()
     {
         return JsonSerializer.Serialize(_board);
@@ -63,5 +75,25 @@ public class SudokuBoard
     {
         _board = JsonSerializer.Deserialize<byte[,]>(boardData);
         return _board;
+    }
+
+    public static SudokuBoard CreateSudokuBoard()
+    {
+        var random = new Random();
+        var board = new byte[9,9];
+        for (var i = 0;  i < 9; i++)
+        {
+            for (var j = 0; j < 9; j++)
+            {
+                var m = j + i*3 + 1;
+                if (m > 9) m = m % 9;
+                board[i, j] = (byte)m;
+            }
+        }
+        for (var i = 0; i < 50; i++)
+        {
+            board[random.Next(1, 9), random.Next(1, 9)] = 0;
+        }
+        return new SudokuBoard(board);
     }
 }
