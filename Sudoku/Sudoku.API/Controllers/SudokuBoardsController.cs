@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sudoku.BL;
 using Sudoku.Domain.Models;
 using Sudoku.Domain.Response;
+using System.Text.Json;
 
 namespace Sudoku.API.Controllers;
 
@@ -41,5 +42,26 @@ public class SudokuBoardsController : Controller
         var id = await _mediator.Send(new AddSudokuBoardRequest { UserId = model.SudokuUserId, SudokuBoardData = model.SudokuBoardData });
 
         return id is not null ? Ok(id) : NotFound();
+    }
+}
+
+public class SudokuBoard
+{
+    private byte[,] _board;
+
+    public SudokuBoard(string boardData)
+    {
+        ToBoard(boardData);
+    }
+
+    public string ToJson()
+    {
+        return JsonSerializer.Serialize(_board);
+    }
+
+    public byte[,] ToBoard(string boardData) 
+    {
+        _board = JsonSerializer.Deserialize<byte[,]>(boardData);
+        return _board;
     }
 }
