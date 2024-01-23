@@ -2,7 +2,7 @@
 
 namespace Sudoku.Domain.Response;
 
-public class GetSudokuBoardsOfUser
+public class GetSudokuBoardsOfUserResponse
 {
     public List<SudokuBoard> SudokuBoards { get; set; }
 }
