@@ -26,7 +26,7 @@ public class GetSudokuBoardRequestHandler : IRequestHandler<GetSudokuBoardReques
             var sudokuBoard = await _appDbContext.SudokuBoards
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            var getSudokuBoardResponse = new GetSudokuBoardResponse { SudokuBoardData = sudokuBoard?.SudokuBoardData }
+            var getSudokuBoardResponse = new GetSudokuBoardResponse { SudokuBoardData = sudokuBoard?.SudokuBoardData };
 
             return getSudokuBoardResponse;
         }
