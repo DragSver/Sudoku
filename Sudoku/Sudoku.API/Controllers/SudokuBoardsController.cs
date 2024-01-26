@@ -51,4 +51,11 @@ public class SudokuBoardsController : Controller
         var newBoard = SudokuBoard.CreateSudokuBoard(); 
         return newBoard is not null ? Ok(newBoard.ToString()) : NotFound();
     }
+
+    [HttpPost("newTest")]
+    public async Task<ActionResult<string>> CreateTest()
+    {
+        var newBoard = SudokuBoard.CreateSudokuBoard();
+        return newBoard is not null ? Ok(newBoard.Test()) : NotFound();
+    }
 }
