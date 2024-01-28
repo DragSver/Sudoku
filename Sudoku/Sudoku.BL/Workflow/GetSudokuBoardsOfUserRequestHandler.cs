@@ -2,7 +2,7 @@
 using Sudoku.DataAccess;
 using Sudoku.Domain.Response;
 
-namespace Sudoku.BL;
+namespace Sudoku.BL.Workflow;
 
 public class GetSudokuBoardsOfUserRequest : IRequest<GetSudokuBoardsOfUserResponse>
 {
@@ -16,7 +16,7 @@ public class GetSudokuBoardsOfUserRequestHandler : IRequestHandler<GetSudokuBoar
     public GetSudokuBoardsOfUserRequestHandler(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
-    }   
+    }
 
     public async Task<GetSudokuBoardsOfUserResponse> Handle(GetSudokuBoardsOfUserRequest request, CancellationToken cancellationToken)
     {

@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Sudoku.BL;
+using Sudoku.BL.Services;
+using Sudoku.BL.Workflow;
 using Sudoku.Domain.Models;
 using Sudoku.Domain.Response;
-using System.Text;
-using System.Text.Json;
 
 namespace Sudoku.API.Controllers;
 
@@ -14,11 +13,13 @@ public class SudokuBoardsController : Controller
 {
     private readonly IMediator _mediator;
     private readonly ILogger<SudokuBoardsController> _logger;
+    private readonly ISudokuBoardService _sudokuBoardService;
 
-    public SudokuBoardsController(IMediator mediator, ILogger<SudokuBoardsController> logger)
+    public SudokuBoardsController(IMediator mediator, ILogger<SudokuBoardsController> logger, ISudokuBoardService sudokuBoardService)
     {
         _mediator = mediator;
         _logger = logger;
+        _sudokuBoardService = sudokuBoardService;
     }
 
     [HttpGet("{id:guid}")]
@@ -29,7 +30,7 @@ public class SudokuBoardsController : Controller
         return sudokuBoardData is not null ? Ok(sudokuBoardData) : NotFound();
     }
 
-    [HttpGet("user={id:guid}")]
+    [HttpGet("user/{id:guid}")]
     public async Task<ActionResult<GetSudokuBoardsOfUserResponse>> GetAll(Guid id)
     {
         var sudokuBoardsData = await _mediator.Send(new GetSudokuBoardsOfUserRequest { Id = id });
@@ -46,16 +47,16 @@ public class SudokuBoardsController : Controller
     }
 
     [HttpPost("new")]
-    public async Task<ActionResult<string>> Create()
+    public async Task<ActionResult<SudokuBoardModel>> Create()
     {
-        var newBoard = SudokuBoard.CreateSudokuBoard(); 
-        return newBoard is not null ? Ok(newBoard.ToString()) : NotFound();
+        var newBoard = _sudokuBoardService.GenerateSudokuBoard(); 
+        return newBoard is not null ? Ok(newBoard) : NotFound();
     }
 
     [HttpPost("newTest")]
     public async Task<ActionResult<string>> CreateTest()
     {
-        var newBoard = SudokuBoard.CreateSudokuBoard();
+        var newBoard = _sudokuBoardService.GenerateSudokuBoard();
         return newBoard is not null ? Ok(newBoard.Test()) : NotFound();
     }
 }
