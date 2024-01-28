@@ -1,6 +1,7 @@
 
 using MediatR;
-using Sudoku.BL;
+using Sudoku.BL.Services;
+using Sudoku.BL.Workflow;
 using Sudoku.DataAccess;
 using System.Reflection;
 
@@ -23,6 +24,7 @@ namespace Sudoku.API
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             builder.Services.AddMediatR(typeof(GetSudokuUserRequest).GetTypeInfo().Assembly);
+            builder.Services.AddTransient<ISudokuBoardService, SudokuBoardService>();
 
             var app = builder.Build();
 

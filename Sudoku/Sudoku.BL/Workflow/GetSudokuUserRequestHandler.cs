@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Sudoku.DataAccess;
 using Sudoku.Domain.Response;
 
-namespace Sudoku.BL;
+namespace Sudoku.BL.Workflow;
 
 public class GetSudokuUserRequest : IRequest<GetSudokuUserResponse>
 {

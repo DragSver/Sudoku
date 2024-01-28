@@ -6,7 +6,7 @@ namespace Sudoku.Domain.Models;
 public class AddSudokuBoardModel
 {
     [Required]
-    public SudokuUser SudokuUser { get; set; }
+    public Guid SudokuUserId { get; set; }
     [Required(AllowEmptyStrings = false)]
     public string SudokuBoardData { get;set; }
 }

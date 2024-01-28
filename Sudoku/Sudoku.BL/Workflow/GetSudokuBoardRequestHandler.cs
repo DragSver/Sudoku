@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Sudoku.DataAccess;
 using Sudoku.Domain.Response;
 
-namespace Sudoku.BL;
+namespace Sudoku.BL.Workflow;
 
 public class GetSudokuBoardRequest : IRequest<GetSudokuBoardResponse>
 {
@@ -26,7 +26,7 @@ public class GetSudokuBoardRequestHandler : IRequestHandler<GetSudokuBoardReques
             var sudokuBoard = await _appDbContext.SudokuBoards
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            var getSudokuBoardResponse = new GetSudokuBoardResponse { SudokuBoardData = sudokuBoard?.SudokuBoardData }
+            var getSudokuBoardResponse = new GetSudokuBoardResponse { SudokuBoardData = sudokuBoard?.SudokuBoardData };
 
             return getSudokuBoardResponse;
         }
