@@ -10,7 +10,8 @@
     <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup>    
+    <ProjectReference Include="..\Sudoku.Core\Sudoku.Core.csproj" />
     <ProjectReference Include="..\Sudoku.DataAccess\Sudoku.DataAccess.csproj" />
   </ItemGroup>
 
