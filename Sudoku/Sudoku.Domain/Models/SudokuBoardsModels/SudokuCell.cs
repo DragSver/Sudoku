@@ -1,4 +1,4 @@
-﻿namespace Sudoku.Domain.Models;
+﻿namespace Sudoku.Domain.Models.SudokuBoardsModels;
 
 public class SudokuCell
 {

@@ -6,12 +6,15 @@ networks:
     
 volumes:
   db_volume:
+  rabbit_data:
 
 services:
   api:
     image: api:latest
     depends_on:
-        - db
+      - db
+      - rabbitmq
+      - redis
     build:
       context: Sudoku.API
       dockerfile: Dockerfile
@@ -20,6 +23,26 @@ services:
       - 5000:8080
     environment: 
      - ConnectionString=host=db;port=5432;database=sudokudb;username=sudokuuser;password=sudokuuser
+    networks:
+      - api-dev
+
+  sudoku_processor:
+    container_name: sudoku_processor
+    depends_on:
+      - rabbitmq
+      - redis
+    build:
+      context: Sudoku.SudokuProcessor
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - RpcServer__Host=rabbitmq
+      - RpcServer__Port=5672
+      - RpcServer__UserName=rmquser
+      - RpcServer__UserPass=rabbitpass
+      - RpcServer__QueueName=sudokucreate
+      - RpcServer__Retriescount=5
+      - RpcServer__ResponseTimeout=3000
     networks:
       - api-dev  
 
@@ -37,4 +60,27 @@ services:
       - SQL_DATABASE=sudokudb
     networks:
       - api-dev
-   
+
+  rabbitmq:
+    image: rabbitmq:3.7.3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_USERNAME=rmquser
+      - RABBITMQ_PASSWORD=rabbitpass
+    networks:
+      - api-dev
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+    restart: always
+    networks:
+      - api-dev

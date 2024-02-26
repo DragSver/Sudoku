@@ -1,16 +1,16 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Sudoku.DataAccess;
-using Sudoku.Domain.Response;
+using Sudoku.Domain.Models.SudokuBoardsModels;
 
-namespace Sudoku.BL.Workflow;
+namespace Sudoku.BL.Workflow.SudokuBoardWorkflow;
 
-public class GetSudokuBoardRequest : IRequest<GetSudokuBoardResponse>
+public class GetSudokuBoardRequest : IRequest<SudokuBoardModel>
 {
     public Guid Id { get; set; }
 }
 
-public class GetSudokuBoardRequestHandler : IRequestHandler<GetSudokuBoardRequest, GetSudokuBoardResponse>
+public class GetSudokuBoardRequestHandler : IRequestHandler<GetSudokuBoardRequest, SudokuBoardModel>
 {
     private readonly AppDbContext _appDbContext;
 
@@ -19,16 +19,17 @@ public class GetSudokuBoardRequestHandler : IRequestHandler<GetSudokuBoardReques
         _appDbContext = appDbContext;
     }
 
-    public async Task<GetSudokuBoardResponse> Handle(GetSudokuBoardRequest request, CancellationToken cancellationToken)
+    public async Task<SudokuBoardModel> Handle(GetSudokuBoardRequest request, CancellationToken cancellationToken)
     {
         try
         {
             var sudokuBoard = await _appDbContext.SudokuBoards
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            var getSudokuBoardResponse = new GetSudokuBoardResponse { SudokuBoardData = sudokuBoard?.SudokuBoardData };
 
-            return getSudokuBoardResponse;
+            var sudokuBoardModel = SudokuBoardModel.ToBoard(sudokuBoard?.SudokuBoardData);
+
+            return sudokuBoardModel;
         }
         catch (Exception ex)
         {
