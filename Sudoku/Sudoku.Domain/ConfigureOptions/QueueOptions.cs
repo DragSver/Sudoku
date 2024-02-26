@@ -2,5 +2,5 @@
 
 public class QueueOptions
 {
-    public string QueueName { get; set; }
+    public string CreateQueue { get; set; }
 }

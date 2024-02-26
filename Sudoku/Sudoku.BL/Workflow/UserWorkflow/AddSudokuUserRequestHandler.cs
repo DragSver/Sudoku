@@ -2,7 +2,7 @@
 using Sudoku.DataAccess;
 using Sudoku.Domain.Entities;
 
-namespace Sudoku.BL.Workflow;
+namespace Sudoku.BL.Workflow.User;
 
 public class AddSudokuUserRequest : IRequest<Guid?>
 {

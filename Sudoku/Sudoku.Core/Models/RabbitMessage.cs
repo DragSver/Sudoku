@@ -2,11 +2,12 @@
 
 public abstract class RabbitMessage<T>
 {
-    public MessageAction Action { get; set; }
-    public T MessageModel { get; set; }
-
-    public RabbitMessage(MessageAction action, T model) {
+    public RabbitMessage(MessageAction action, T model)
+    {
         Action = action;
-        MessageModel = model;
+        Model = model;
     }
+
+    public MessageAction Action { get; set; }
+    public T Model { get; set; }
 }

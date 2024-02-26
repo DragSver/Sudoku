@@ -1,9 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Sudoku.BL;
-using Sudoku.BL.Workflow;
+using Sudoku.BL.Workflow.User;
 using Sudoku.Domain.Models;
-using Sudoku.Domain.Response;
 
 namespace Sudoku.API.Controllers;
 
@@ -21,7 +19,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<GetSudokuUserResponse>> Get(Guid id)
+    public async Task<ActionResult<SudokuUserModel>> Get(Guid id)
     {
         var user = await _mediator.Send(new GetSudokuUserRequest { Id = id });
 
@@ -29,7 +27,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> Add([FromBody] AddSudokuUserModel model)
+    public async Task<ActionResult<Guid>> Add([FromBody] SudokuUserModel model)
     {
         var id = await _mediator.Send(new AddSudokuUserRequest { Login = model.Login, Password = model.Password });
 

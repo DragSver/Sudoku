@@ -1,8 +1,6 @@
-﻿using Sudoku.Domain.Models;
+﻿namespace Sudoku.Core.Models;
 
-namespace Sudoku.Core.Models;
-
-public class SudokuBoardMessage : RabbitMessage<CreateSudokuBoardModel>
+public class SudokuBoardMessage : RabbitMessage<Guid>
 {
-    public SudokuBoardMessage(MessageAction action, CreateSudokuBoardModel model) : base(action, model) { }
+    public SudokuBoardMessage(MessageAction action, Guid model) : base(action, model) { }
 }

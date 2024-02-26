@@ -1,16 +1,16 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Sudoku.DataAccess;
-using Sudoku.Domain.Response;
+using Sudoku.Domain.Models;
 
-namespace Sudoku.BL.Workflow;
+namespace Sudoku.BL.Workflow.User;
 
-public class GetSudokuUserRequest : IRequest<GetSudokuUserResponse>
+public class GetSudokuUserRequest : IRequest<SudokuUserModel>
 {
     public Guid Id { get; set; }
 }
 
-public class GetSudokuUserRequestHandler : IRequestHandler<GetSudokuUserRequest, GetSudokuUserResponse>
+public class GetSudokuUserRequestHandler : IRequestHandler<GetSudokuUserRequest, SudokuUserModel>
 {
     private readonly AppDbContext _appDbContext;
 
@@ -19,14 +19,14 @@ public class GetSudokuUserRequestHandler : IRequestHandler<GetSudokuUserRequest,
         _appDbContext = appDbContext;
     }
 
-    public async Task<GetSudokuUserResponse> Handle(GetSudokuUserRequest request, CancellationToken cancellationToken)
+    public async Task<SudokuUserModel> Handle(GetSudokuUserRequest request, CancellationToken cancellationToken)
     {
         try
         {
             var sudokuUser = await _appDbContext.SudokuUsers
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            var getSudokuUserResponse = new GetSudokuUserResponse { Login = sudokuUser?.Login, Password = sudokuUser?.Password };
+            var getSudokuUserResponse = new SudokuUserModel { Login = sudokuUser?.Login, Password = sudokuUser?.Password };
 
             return getSudokuUserResponse;
         }
