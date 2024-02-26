@@ -1,8 +1,9 @@
-﻿using Sudoku.Domain.Models;
+﻿using Sudoku.Domain.Models.SudokuBoardsModels;
+using Sudoku.SudokuProcessor.Interfaces;
 
-namespace Sudoku.BL.Services;
+namespace Sudoku.SudokuProcessor.Services;
 
-public class SudokuBoardService : ISudokuBoardService
+public class CreateBoardService : ICreateBoardService
 {
     private SudokuCell[] _board;
     public SudokuBoardModel GenerateSudokuBoard()

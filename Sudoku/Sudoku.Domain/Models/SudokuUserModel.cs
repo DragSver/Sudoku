@@ -2,10 +2,11 @@
 
 namespace Sudoku.Domain.Models;
 
-public class AddSudokuUserModel
+public class SudokuUserModel
 {
     [Required(AllowEmptyStrings = false)]
     public string Login { get; set; }
+
     [Required(AllowEmptyStrings = false)]
     public string Password { get; set; }
 }

@@ -1,10 +1,12 @@
 ﻿using System.Text;
 
-namespace Sudoku.Domain.Models;
+namespace Sudoku.Domain.Models.SudokuBoardsModels;
 
 public class SudokuBoardModel
 {
     public SudokuCell[] Cells { get; set; }
+
+    public SudokuBoardModel() { }
 
     public SudokuBoardModel(string boardData)
     {
@@ -44,7 +46,7 @@ public class SudokuBoardModel
         Cells.OrderBy(x => x.Row + x.Column);
         for (var i = 1; i <= Cells.Length; i++)
         {
-            stringBuilder.Append((Cells[i-1].Content is null? " " : Cells[i - 1].Content));
+            stringBuilder.Append(Cells[i - 1].Content is null ? " " : Cells[i - 1].Content);
 
             if (i % 27 == 0)
                 stringBuilder.Append("\n-----------------------------------\n");
@@ -58,7 +60,7 @@ public class SudokuBoardModel
         return stringBuilder.ToString();
     }
 
-    public SudokuCell[] ToBoard(string boardData)
+    public static SudokuBoardModel ToBoard(string boardData)
     {
         boardData.Split(" }, { ");
         //TODO
