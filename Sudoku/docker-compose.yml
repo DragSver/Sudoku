@@ -9,8 +9,12 @@ volumes:
   rabbit_data:
 
 services:
-  api:
+  api1:
     image: api:latest
+    container_name: api1
+    hostname: api1
+    expose:
+      - "5000"
     depends_on:
       - db
       - rabbitmq
@@ -19,8 +23,25 @@ services:
       context: Sudoku.API
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - 5000:8080
+    environment: 
+     - ConnectionString=host=db;port=5432;database=sudokudb;username=sudokuuser;password=sudokuuser
+    networks:
+      - api-dev
+   
+  api2:
+    image: api:latest
+    container_name: api2
+    hostname: api2
+    expose:
+      - "5000"
+    depends_on:
+      - db
+      - rabbitmq
+      - redis
+    build:
+      context: Sudoku.API
+      dockerfile: Dockerfile
+    restart: always
     environment: 
      - ConnectionString=host=db;port=5432;database=sudokudb;username=sudokuuser;password=sudokuuser
     networks:
@@ -84,3 +105,15 @@ services:
     restart: always
     networks:
       - api-dev
+
+  nginx:
+    image: nginx
+    depends_on:
+     - api1
+     - api2
+    ports:
+     - 4000:4000
+    volumes:
+     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - api-dev  

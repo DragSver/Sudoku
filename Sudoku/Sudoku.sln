@@ -15,7 +15,12 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Core", "Sudoku.Core\Sudoku.Core.csproj", "{9D66ED5E-CB60-4B54-A9BE-1347290C21E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.SudokuProcessor", "Sudoku.SudokuProcessor\Sudoku.SudokuProcessor.csproj", "{6FC038A7-0FEA-403A-A4ED-FA753A28E606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.SudokuProcessor", "Sudoku.SudokuProcessor\Sudoku.SudokuProcessor.csproj", "{6FC038A7-0FEA-403A-A4ED-FA753A28E606}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{3C89F76D-C1E1-4452-B691-86A21F96F34F}"
+	ProjectSection(SolutionItems) = preProject
+		nginx\nginx.conf = nginx\nginx.conf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
