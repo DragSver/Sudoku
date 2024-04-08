@@ -4,7 +4,13 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "sudoku.api": "StartDebugging"
+        "api1": "StartDebugging",
+        "api2": "StartDebugging",
+        "db": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "redis": "StartWithoutDebugging",
+        "sudoku_processor": "StartDebugging",
+        "nginx": "StartDebugging"
       }
     }
   }
