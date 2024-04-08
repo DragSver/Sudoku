@@ -6,6 +6,7 @@ namespace Sudoku.SudokuProcessor.Services;
 public class CreateBoardService : ICreateBoardService
 {
     private SudokuCell[] _board;
+
     public SudokuBoardModel GenerateSudokuBoard()
     {
         var random = new Random();
@@ -34,19 +35,16 @@ public class CreateBoardService : ICreateBoardService
         {
             for (var j = 0; j < 9; j++)
             {
-                var m = (i * 3 + i / 3 + j) % 9 + 1;
-                _board[i * 9 + j] = new SudokuCell { Column = (byte)(j + 1), Row = (byte)(i + 1), Content = (byte)m };
+                var valueCell = (i * 3 + i / 3 + j) % 9 + 1;
+                _board[i * 9 + j] = new SudokuCell
+                {
+                    Column = (byte)(j + 1),
+                    Row = (byte)(i + 1),
+                    OriginalValue = (byte)valueCell,
+                    CurrentValue = (byte)valueCell,
+                    Changeable = false
+                };
             }
-        }
-    }
-    public void AddEmptyCells()
-    {
-        var random = new Random();
-        for (var i = 0; i < 50; i++)
-        {
-            var row = (byte)random.Next(1, 10);
-            var col = (byte)random.Next(1, 10);
-            _board.Where(c => c.Row == row).Where(c => c.Column == col).FirstOrDefault().Content = null;
         }
     }
     public void Transposition()
@@ -70,15 +68,12 @@ public class CreateBoardService : ICreateBoardService
         row1 = row1 + area * 3;
         row2 = row2 + area * 3;
 
-        byte? j;
         for (var i = 1; i < 10; i++)
         {
             var cell1 = _board.Where(x => x.Row == row1).Where(x => x.Column == i).FirstOrDefault();
             var cell2 = _board.Where(x => x.Row == row2).Where(x => x.Column == i).FirstOrDefault();
 
-            j = cell1.Content;
-            cell1.Content = cell2.Content;
-            cell2.Content = j;
+            SwapCellsValue(cell1, cell2);
         }
     }
     public void SwapColumnSmall()
@@ -92,15 +87,12 @@ public class CreateBoardService : ICreateBoardService
         col1 = col1 + area * 3;
         col2 = col2 + area * 3;
 
-        byte? j;
         for (var i = 1; i < 10; i++)
         {
             var cell1 = _board.Where(x => x.Column == col1).Where(x => x.Row == i).FirstOrDefault();
             var cell2 = _board.Where(x => x.Column == col2).Where(x => x.Row == i).FirstOrDefault();
 
-            j = cell1.Content;
-            cell1.Content = cell2.Content;
-            cell2.Content = j;
+            SwapCellsValue(cell1, cell2);
         }
     }
     public void SwapRowBig()
@@ -111,9 +103,6 @@ public class CreateBoardService : ICreateBoardService
         while (area1 == area2)
             area2 = random.Next(0, 3);
 
-
-        byte? i;
-
         for (var row = 1; row < 4; row++)
             for (var col = 1; col < 10; col++)
             {
@@ -122,9 +111,7 @@ public class CreateBoardService : ICreateBoardService
                 var cell1 = _board.Where(x => x.Row == rowCell1).Where(x => x.Column == col).FirstOrDefault();
                 var cell2 = _board.Where(x => x.Row == rowCell2).Where(x => x.Column == col).FirstOrDefault();
 
-                i = cell1.Content;
-                cell1.Content = cell2.Content;
-                cell2.Content = i;
+                SwapCellsValue(cell1, cell2);
             }
     }
     public void SwapColumnBig()
@@ -135,9 +122,6 @@ public class CreateBoardService : ICreateBoardService
         while (area1 == area2)
             area2 = random.Next(0, 3);
 
-
-        byte? i;
-
         for (var col = 1; col < 4; col++)
             for (var row = 1; row < 10; row++)
             {
@@ -146,9 +130,31 @@ public class CreateBoardService : ICreateBoardService
                 var cell1 = _board.Where(x => x.Row == row).Where(x => x.Column == colCell1).FirstOrDefault();
                 var cell2 = _board.Where(x => x.Row == row).Where(x => x.Column == colCell2).FirstOrDefault();
 
-                i = cell1.Content;
-                cell1.Content = cell2.Content;
-                cell2.Content = i;
+                SwapCellsValue(cell1, cell2);
             }
+    }
+    private void SwapCellsValue(SudokuCell cell1, SudokuCell cell2)
+    {
+        byte? j;
+
+        j = cell1.OriginalValue;
+        cell1.OriginalValue = cell2.OriginalValue;
+        cell2.OriginalValue = j;
+
+
+        cell1.CurrentValue = cell1.OriginalValue;
+        cell2.CurrentValue = cell2.OriginalValue;
+    }
+    public void AddEmptyCells()
+    {
+        var random = new Random();
+        for (var i = 0; i < 50; i++)
+        {
+            var row = (byte)random.Next(1, 10);
+            var col = (byte)random.Next(1, 10);
+            var cell = _board.Where(c => c.Row == row).Where(c => c.Column == col).FirstOrDefault();
+            cell.CurrentValue = 0;
+            cell.Changeable = true;
+        }
     }
 }
