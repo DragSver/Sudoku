@@ -8,5 +8,5 @@ public class AddSudokuBoardModel
     public Guid UserId { get; set; }
 
     [Required(AllowEmptyStrings = false)]
-    public string SudokuBoardData { get; set; }
+    public SudokuBoardModel SudokuBoardModel { get; set; }
 }

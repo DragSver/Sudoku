@@ -34,7 +34,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<SudokuBoard>(entity =>
         {
             entity.HasKey(x => x.Id);
-            entity.Property(x => x.SudokuBoardData).IsRequired();
+            entity.Property(x => x.SudokuBoardModelJson).IsRequired();
         });
     }
 }
