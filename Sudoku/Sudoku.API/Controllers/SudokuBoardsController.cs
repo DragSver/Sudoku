@@ -20,25 +20,25 @@ public class SudokuBoardsController : Controller
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<SudokuBoardModel>> Get(Guid id)
+    public async Task<ActionResult<SudokuBoard>> Get(Guid id)
     {
-        var sudokuBoardData = await _mediator.Send(new GetSudokuBoardRequest { Id = id });
+        var sudokuBoard = await _mediator.Send(new GetSudokuBoardRequest { Id = id });
 
-        return sudokuBoardData is not null ? Ok(sudokuBoardData) : NotFound();
+        return sudokuBoard is not null ? Ok(sudokuBoard) : NotFound();
     }
 
     [HttpGet("user/{id:guid}")]
     public async Task<ActionResult<List<SudokuBoard>>> GetAll(Guid id)
     {
-        var sudokuBoardsData = await _mediator.Send(new GetSudokuBoardsOfUserRequest { Id = id });
+        var sudokuBoards = await _mediator.Send(new GetSudokuBoardsOfUserRequest { Id = id });
 
-        return sudokuBoardsData;
+        return sudokuBoards;
     }
 
     [HttpPost]
     public async Task<ActionResult<Guid>> Add([FromBody] AddSudokuBoardModel model)
     {
-        var id = await _mediator.Send(new AddSudokuBoardRequest { UserId = model.UserId, SudokuBoardData = model.SudokuBoardData });
+        var id = await _mediator.Send(new AddSudokuBoardRequest { UserId = model.UserId, SudokuBoardModel = model.SudokuBoardModel });
 
         return id is not null ? Ok(id) : NotFound();
     }

@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Sudoku.DataAccess;
 using Sudoku.Domain.Entities;
+using Sudoku.Domain.Models.SudokuBoardsModels;
 
 namespace Sudoku.BL.Workflow.SudokuBoardWorkflow;
 
 public class AddSudokuBoardRequest : IRequest<Guid?>
 {
-    public string SudokuBoardData { get; set; }
+    public SudokuBoardModel SudokuBoardModel { get; set; }
     public Guid UserId { get; set; }
 }
 
@@ -21,7 +22,7 @@ public class AddSudokuBoardRequestHandler : IRequestHandler<AddSudokuBoardReques
 
     public async Task<Guid?> Handle(AddSudokuBoardRequest request, CancellationToken cancellationToken)
     {
-        var entity = new SudokuBoard { SudokuBoardData = request.SudokuBoardData, UserId = request.UserId };
+        var entity = new SudokuBoard { SudokuBoardModel = request.SudokuBoardModel, UserId = request.UserId };
 
         try
         {
