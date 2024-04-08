@@ -19,10 +19,10 @@ public class SudokuBoardsController : Controller
         _logger = logger;
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<SudokuBoard>> Get(Guid id)
+    [HttpGet("favorite/{userId:guid}&{sudokuBoardId:guid}")]
+    public async Task<ActionResult<SudokuBoard>> Get(Guid userId, Guid sudokuBoardId)
     {
-        var sudokuBoard = await _mediator.Send(new GetSudokuBoardRequest { Id = id });
+        var sudokuBoard = await _mediator.Send(new GetSudokuBoardRequest { UserId = userId, SudokuModelId = sudokuBoardId });
 
         return sudokuBoard is not null ? Ok(sudokuBoard) : NotFound();
     }
@@ -35,12 +35,28 @@ public class SudokuBoardsController : Controller
         return sudokuBoards;
     }
 
-    [HttpPost]
-    public async Task<ActionResult<Guid>> Add([FromBody] AddSudokuBoardModel model)
+    [HttpPost("favourite/add")]
+    public async Task<ActionResult<string>> AddFavorite([FromBody] AddFavoriteSudokuBoardModel model)
     {
-        var id = await _mediator.Send(new AddSudokuBoardRequest { UserId = model.UserId, SudokuBoardModel = model.SudokuBoardModel });
+        var result = await _mediator.Send(new AddFavoriteSudokuBoardRequest { UserId = model.UserId, SudokuBoardModel = model.SudokuBoardModel, SudokuBoardId = model.SudokuBoardId });
 
-        return id is not null ? Ok(id) : NotFound();
+        return result.Success ? Ok() : NotFound(result.Message);
+    }
+
+    [HttpPost("favourite/delete")]
+    public async Task<ActionResult<string>> DeleteFavorite([FromBody] DeleteFavoriteSudokuBoardModel model)
+    {
+        var result = await _mediator.Send(new DeleteFavoriteSudokuBoardRequest { UserId = model.UserId, SudokuBoardId = model.SudokuBoardId });
+
+        return result.Success ? Ok() : NotFound(result.Message);
+    }
+
+    [HttpPost("favourite/update")]
+    public async Task<ActionResult<string>> UpdateFavorite([FromBody] AddFavoriteSudokuBoardModel model)
+    {
+        var result = await _mediator.Send(new UpdateFavoriteSudokuBoardRequest { UserId = model.UserId, SudokuBoardId = model.SudokuBoardId });
+
+        return result.Success ? Ok() : NotFound(result.Message);
     }
 
     [HttpPost("new/create/{id:guid}")]
@@ -60,10 +76,11 @@ public class SudokuBoardsController : Controller
     }
 
 
-    /*[HttpPost("newTest")]
-    public async Task<ActionResult<string>> CreateTest()
+    [HttpPut("update")]
+    public async Task<ActionResult<string>> Update([FromBody] CachedSudokuBoard model)
     {
-        var newBoard = _sudokuBoardService.GenerateSudokuBoard();
-        return newBoard is not null ? Ok(newBoard.Test()) : NotFound();
-    }*/
+        var result = await _mediator.Send(new UpdateCachedSudokuBoardRequest { SudokuId = model.SudokuId, SudokuBoardModel = model.SudokuBoard });
+
+        return result.Success ? Ok() : NotFound(result.Message);
+    }
 }
